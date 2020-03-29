@@ -12,23 +12,23 @@ routes.post("/sessions", SessaoController.create);
 
 routes.get("/ongs", OngController.index);
 routes.post("/ongs", celebrate({
-	[Segments.BODY]: Joi.object({
+	[Segments.BODY]: Joi.object().keys({
 		nome: Joi.string().required().min(1),
 		email: Joi.string().required().email(),
-		whatsapp: Joi.number().required().min(10).max(11),
+		whatsapp: Joi.string().required().min(10).max(11),
 		cidade: Joi.string().required(),
 		uf: Joi.string().required().length(2)
-	}).unknown()
+	})
 }), OngController.create);
 
 routes.get("/perfil", celebrate({
-	[Segments.HEADERS] : Joi.object().keys({
+	[Segments.HEADERS]: Joi.object({
 		authorization: Joi.string().required(),
-	}),
+	}).unknown(),
 }), PerfilController.index);
 
 routes.get("/incidentes", celebrate({
-	[Segments.QUERY]: Joi.object.keys({
+	[Segments.QUERY]: Joi.object().keys({
 		page: Joi.number(),
 	})
 }), IncidenteController.index);
